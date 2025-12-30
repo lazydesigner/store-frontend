@@ -295,7 +295,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Sale Type
         </label>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {[
             { value: 'draft', label: 'Draft', desc: 'Save for later' },
             { value: 'proforma', label: 'Proforma Invoice', desc: 'Quotation' },
@@ -317,7 +317,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
       </div>
 
       {/* Customer & Warehouse */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         <Select
           label="Customer"
           value={formData.customer_id}
@@ -347,7 +347,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
         <div className="space-y-3">
           {formData.items.map((item, index) => (
             <div key={index} className="border rounded-lg p-4 bg-gray-50">
-              <div className="grid grid-cols-12 gap-3">
+              <div className="grid md:grid-cols-12 grid-cols-1 gap-3">
                 <div className="col-span-4">
                   <Select
                     label="Product"
@@ -369,7 +369,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
                     className="mb-0"
                   />
                 </div>
-                <div className="col-span-2">
+                <div className="md:col-span-2 col-span-4">
                   <Input
                     label="Quantity"
                     type="number"
@@ -379,7 +379,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
                     className="mb-0"
                   />
                 </div>
-                <div className="col-span-2">
+                <div className="md:col-span-2 col-span-4">
                   <Input
                     label="Price (₹)"
                     type="number"
@@ -389,7 +389,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
                     helperText={`₹${item.minPrice}-${item.maxPrice}`}
                   />
                 </div>
-                <div className="col-span-2">
+                <div className="md:col-span-2 col-span-4">
                   <Input
                     label={`Discount (Max: ${item.maxDiscountAllowed}%)`}
                     type="number"
@@ -401,13 +401,13 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
                     error={discountErrors[index]}
                   />
                 </div>
-                <div className="col-span-1 flex items-end">
+                <div className="col-span-1 flex">
                   <div className="w-full">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Total</label>
                     <p className="text-lg font-bold text-gray-900">₹{item.lineTotal?.toLocaleString()}</p>
                   </div>
                 </div>
-                <div className="col-span-1 flex items-end justify-end">
+                <div className="col-span-1 flex justify-end">
                   <button
                     type="button"
                     onClick={() => handleRemoveItem(index)}

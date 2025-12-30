@@ -46,11 +46,11 @@ const Customers = () => {
     // Fetch customers from API
     const fetchCustomers = async () => {
       const response = await customerService.getAllCustomers();
-      //console.log(response.data);
+      console.log(response.data);
       setCustomers(response.data);
     };
     fetchCustomers(); 
-  }, []);
+  }, []); 
 
   }catch(err){
     console.error(err);

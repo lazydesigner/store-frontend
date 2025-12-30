@@ -10,15 +10,13 @@ const ForgotPassword = () => {
 
 const forgotPasswordMutation = async (data) =>{
   try{
-    const response = await authService.forgotPassword(data);
-    console.log(response)
+    const response = await authService.forgotPassword(data); 
   if(response.success){
     success('Password reset link sent! Check your email.')
   }else{
     error('Failed to send reset link')
   }
-  }catch(e){
-    console.log(e)
+  }catch(e){ 
     error(e.response?.data?.error || 'Failed to send reset link');
   } 
 

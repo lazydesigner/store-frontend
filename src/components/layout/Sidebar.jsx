@@ -25,7 +25,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { name: 'Product Types', icon: Tag, path: '/product-types', permission: 'PRODUCT_VIEW' },
     { name: 'Companies', icon: Building2, path: '/companies', permission: 'PRODUCT_VIEW' },
     { name: 'Warehouses', icon: Warehouse, path: '/warehouses', permission: 'WAREHOUSE_VIEW' },
-    { name: 'Stock Transfers', icon: ArrowRightLeft, path: '/stock-transfers', permission: 'WAREHOUSE_VIEW' },
+    { name: 'Stock Transfers', icon: ArrowRightLeft, path: '/stock-transfers', permission: 'INVENTORY_VIEW' },
     { name: 'Customers', icon: Users, path: '/customers', permission: 'CUSTOMER_VIEW' },
     { name: 'Employees', icon: UserCircle, path: '/employees', permission: 'EMPLOYEE_VIEW' },
     { name: 'Roles', icon: Shield, path: '/roles', permission: 'ROLE_VIEW' },

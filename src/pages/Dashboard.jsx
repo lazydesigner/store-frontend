@@ -59,9 +59,7 @@ const Dashboard = () => {
     ])
 
     const [DashboardStats, getRecentSale, getSaleChart, stockReportData, kittyData] = result
-
-
-    console.log(DashboardStats.value.data.stats)
+ 
 
     if(DashboardStats.status === 'fulfilled'){
     setDStats(DashboardStats.value.data.stats)}
@@ -115,8 +113,7 @@ const Dashboard = () => {
     })))}
   }
 
-  const handleViewOrder = (order) => {
-    console.log('View order:', order);
+  const handleViewOrder = (order) => { 
 
     navigate(`/invoice/${order.data.id}`);
     // setSelectedSale(order.data);

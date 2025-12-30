@@ -18,8 +18,8 @@ import ExportButton from '../components/common/ExportButton';
 import { exportService } from '../services/exportService';
 
 function convertProductTypes(apiData) {
-  return apiData?.map(item => ({
-    value: String(item.id),
+  return apiData?.map(item => ({ 
+    value: item.name,
     label: item.name
   }));
 }
@@ -93,6 +93,13 @@ const Products = () => {
       error('Failed to load products type');
     }
   }
+
+  const filteredCustomers = products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.sku.includes(searchQuery) ||
+    product.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.company.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleView = (product) => {
     setSelectedProduct(product);
@@ -195,7 +202,7 @@ const Products = () => {
           key={index}
           className="block font-mono text-sm text-gray-600"
         > <small className='font-semibold'>{item.warehouse.code}: </small>
-          {new Date(item.last_restocked_at || '').toLocaleDateString()}
+          {new Date(item.last_restocked_at || item.created_at).toLocaleDateString()}
         </span>
       ))}
     </div>
@@ -303,7 +310,7 @@ const Products = () => {
 
       {/* Filters */}
       <Card>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Input
             placeholder="Search by name or SKU..."
             icon={Search}
@@ -315,19 +322,16 @@ const Products = () => {
             placeholder="Filter by Type"
             options={typeOptions}
             value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="mb-0"
           />
           <Select
             placeholder="Filter by Company"
             options={companyOptions}
             value={selectedCompany}
-            onChange={(e) => setSelectedCompany(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="mb-0"
-          />
-          <Button variant="outline" icon={Filter} fullWidth>
-            Advanced Filters
-          </Button>
+          /> 
         </div>
       </Card>
 
@@ -335,7 +339,7 @@ const Products = () => {
       <Card>
         <Table
           columns={columns}
-          data={products}
+          data={filteredCustomers}
           hover={true}
         />
       </Card>

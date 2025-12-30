@@ -31,8 +31,7 @@ const ResetPassword = () => {
   },[]) 
 
   const check = async () =>{
-    const data = await authService.verifyResetToken(token)
-    console.log(data)
+    const data = await authService.verifyResetToken(token) 
 
     if(data.success){
       setTokenError(false)
