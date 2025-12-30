@@ -279,7 +279,10 @@ const Sales = () => {
       error('Failed to record payment');
     }
   };
+const user = JSON.parse(localStorage.getItem('user_data'));
 
+    const isAdmin =
+      user?.roles?.includes('Admin') 
   const tabs = [
     { id: 'all', label: 'All Sales' },
     { id: 'drafts', label: 'Drafts' },
@@ -386,7 +389,13 @@ const Sales = () => {
       )}
 
       {activeTab === 'log' && (
-        <SalesLog logs={logs} />
+        isAdmin ? (<SalesLog logs={logs} />) : (<ProformaInvoice
+          proformas={proformas}
+          onDownload={handleDownloadProforma}
+          onConvert={handleConvertProforma}
+          onEmail={handleEmailProforma}
+        />)
+        
       )}
 
       {/* Create Sale Modal */}
