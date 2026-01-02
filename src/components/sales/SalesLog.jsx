@@ -27,7 +27,7 @@ const SalesLog = ({ logs = [] }) => {
         logs.map((log) => (
           <Card key={log.id} className="hover:shadow-md transition-shadow">
             <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0">
+              <div className="hidden md:flex-shrink-0">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                   log.action === 'create' ? 'bg-green-100' :
                   log.action === 'update' ? 'bg-yellow-100' :
@@ -43,7 +43,7 @@ const SalesLog = ({ logs = [] }) => {
                 </div>
               </div>
 
-              <div className="flex-1">
+              <div className="block md:flex-1">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <h3 className="font-semibold text-gray-900">{log.invoiceNo}</h3>

@@ -9,7 +9,7 @@ const DraftSale = ({ drafts = [], onEdit, onDelete, onConvert }) => {
     <div className="space-y-4">
       {drafts.length === 0 ? (
         <Card>
-          <div className="text-center py-12">
+          <div className="text-center py-12"> 
             <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-500">No draft sales found</p>
           </div>
@@ -17,7 +17,7 @@ const DraftSale = ({ drafts = [], onEdit, onDelete, onConvert }) => {
       ) : (
         drafts.map((draft) => ( 
           <Card key={draft.id} className="hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between">
+            <div className="block md:flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
                   <h3 className="font-semibold text-gray-900">{draft.draftNo}</h3>
@@ -50,7 +50,7 @@ const DraftSale = ({ drafts = [], onEdit, onDelete, onConvert }) => {
                 )}
               </div>
 
-              <div className="flex flex-col space-y-2 ml-4">
+              <div className="flex flex-col space-y-2 mt-3 md:mt-0 ml-4">
                 <Button size="sm" onClick={() => onEdit(draft)}>
                   <Edit className="h-4 w-4 mr-1" />
                   Edit

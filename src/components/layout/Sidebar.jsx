@@ -18,7 +18,7 @@ import {
   ArrowRightLeft
 } from 'lucide-react';
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, closeSidebar, isMobile }) => {
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', permission: 'DASHBOARD_VIEW' },
     { name: 'Products', icon: Package, path: '/products', permission: 'PRODUCT_VIEW' },
@@ -36,7 +36,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   ];
 
   return (
-    <aside className={`${isOpen ? 'w-64' : 'w-20'} bg-slate-900 text-white transition-all duration-300 flex flex-col relative`}>
+    <aside className={`
+    relative md:static z-40 h-full
+    ${isOpen ? 'translate-x-0' : 'md:translate-x-0'}
+    ${isOpen ? 'w-64' : 'w-20'}
+    bg-slate-900 text-white transition-all duration-300 flex flex-col
+  `}>
       {/* Logo Section */}
       <div className="p-4 flex items-center justify-between border-b border-slate-700">
         {isOpen && (
@@ -73,6 +78,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     <li key={item.path}>
       <NavLink
         to={item.path}
+        onClick={() => {
+          if (isMobile) closeSidebar();
+        }}
         className={({ isActive }) =>
           `flex items-center space-x-3 px-3 py-3 rounded-lg transition-colors ${
             isActive

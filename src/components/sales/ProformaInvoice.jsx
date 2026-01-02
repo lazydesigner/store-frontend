@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, Download, ArrowRight, Mail } from 'lucide-react';
+import { FileText, Download,Mail, Eye } from 'lucide-react';
 import Card from '../common/Card';
 import Badge from '../common/Badge';
 import Button from '../common/Button';
@@ -17,7 +17,7 @@ const ProformaInvoice = ({ proformas = [], onDownload, onConvert, onEmail }) => 
       ) : (
         proformas.map((proforma) => (
           <Card key={proforma.id} className="hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between">
+            <div className="block md:flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
                   <h3 className="font-semibold text-blue-600">{proforma.proformaNo}</h3>
@@ -37,23 +37,23 @@ const ProformaInvoice = ({ proformas = [], onDownload, onConvert, onEmail }) => 
                     <p className="font-medium text-gray-900">{proforma.date}</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Valid Until</p>
-                    <p className="font-medium text-gray-900">Not Mentioned</p>
+                    <p className="text-gray-500">Employee</p>
+                    <p className="font-medium text-gray-900">{proforma.otherDetails?.employee.name}</p>
                   </div>
                   <div>
                     <p className="text-gray-500">Amount</p>
-                    <p className="font-semibold text-blue-600">₹{proforma.amount.toLocaleString()}</p>
+                    <p className="font-semibold text-blue-600">₹{proforma.amount.toLocaleString()}, ({proforma.paymentStatus})</p>
                   </div>
                 </div>
 
                 <div className="mt-3">
                   <p className="text-sm text-gray-600">
-                    <strong>Items:</strong> {proforma.items.map(item => item.name).join(', ')}
+                    <strong>Items:</strong> {proforma.items.map(item => item.product.name).join(' || ')}
                   </p>
                 </div>
               </div>
 
-              <div className="flex flex-col space-y-2 ml-4">
+              <div className="flex flex-col mt-3 md:mt-0 space-y-2 ml-4">
                 <Button size="sm" variant="outline" onClick={() => onDownload(proforma)}>
                   <Download className="h-4 w-4 mr-1" />
                   Download
@@ -62,10 +62,10 @@ const ProformaInvoice = ({ proformas = [], onDownload, onConvert, onEmail }) => 
                   <Mail className="h-4 w-4 mr-1" />
                   Email
                 </Button>
-                {/* <Button size="sm" onClick={() => onConvert(proforma)}>
-                  <ArrowRight className="h-4 w-4 mr-1" />
-                  Convert to Invoice
-                </Button> */}
+                <Button size="sm" onClick={() => onConvert(proforma)}>
+                  <Eye className="h-4 w-4 mr-1" />
+                  View
+                </Button>
               </div>
             </div>
           </Card>

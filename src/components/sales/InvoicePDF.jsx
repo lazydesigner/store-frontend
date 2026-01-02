@@ -39,14 +39,12 @@ const InvoicePDF = ({ invoice, onDownload, onPrint, onEmail }) => {
                 <p className="font-semibold  my-0 text-gray-900">Friends Digital</p>
                 <p>127/T/10, opposite Siddhi Remedies</p>
                 <p>Kanpur, Uttar Pradesh 208014</p>
-                <p>GSTIN: 09AHCPP5662L1ZT</p>
                 <p>Phone: +91 99368 28533</p>
               </div>
             </div>
 
             <div className="text-right">
               <div className="bg-blue-600 text-white px-4 py-2 rounded-lg inline-block mb-2">
-                <p className="text-xs">Invoice No</p>
                 <p className="text-xs font-bold">{invoice.invoiceNo}</p>
               </div>
               <p className="text-sm text-gray-600">Date: {invoice.date}</p>
@@ -151,15 +149,13 @@ const InvoicePDF = ({ invoice, onDownload, onPrint, onEmail }) => {
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <p className="text-xs font-semibold text-gray-600 mb-1">TERMS & CONDITIONS:</p>
-                <ul className="text-xs text-gray-600 space-y-0.5">
-                  <li>• Payment due within 30 days</li>
-                  <li>• All disputes subject to Mumbai jurisdiction</li>
-                  <li>• Goods once sold will not be taken back</li>
+                <ul className="text-xs text-gray-600 space-y-0.5">  
+                  <li>• Goods once sold will not returnedk</li>
                   <li>• Warranty terms as per manufacturer</li>
                 </ul>
               </div>
               <div className="text-right">
-                <p className="text-xs text-gray-600 mb-4">For Electronics Store Pvt Ltd</p>
+                <p className="text-xs text-gray-600 mb-4">Friends Digital</p>
                 <div className="border-t border-gray-400 pt-2 mt-8">
                   <p className="text-xs font-semibold">Authorized Signatory</p>
                 </div>
@@ -168,7 +164,7 @@ const InvoicePDF = ({ invoice, onDownload, onPrint, onEmail }) => {
 
             <div className="text-center text-xs text-gray-500 mt-4">
               <p>Thank you for your business!</p>
-              <p className="mt-1">This is a computer-generated invoice and does not require signature</p>
+              <p className="mt-1">This is a computer-generated proforma and does not require signature</p>
             </div>
           </div>
         </div>

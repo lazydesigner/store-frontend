@@ -230,7 +230,8 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
       ]);
       setCustomer(csutData.data.map(cust => ({
         value: cust.id,
-        label: `${cust.name} - ${cust.phone}`
+        label: `${cust.name} - ${cust.phone}`,
+        searchText: `${cust.name} ${cust.phone}`.toLowerCase()
       })));
       setWarehouses(wareData.data.map(cust => ({
         value: cust.id,
@@ -245,7 +246,15 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
         maxPrice: pro.min_price,
         productTypeId: String(pro.product_type_id),
         productTypeName: pro.productType.name,
-        taxRate: parseInt(pro.tax_rate) 
+        taxRate: parseInt(pro.tax_rate),
+
+        searchText: `
+        ${pro.name}
+        ${pro.sku || ''}
+        ${pro.hsn || ''}
+        ${pro.company || ''}
+        ${pro.productType?.name || ''}
+      `.toLowerCase()
       })));
     } catch (error) {
       console.error('Failed to load customers:', error);
@@ -257,7 +266,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
     setFormData(prev => ({ ...prev, warehouse_id: e.target.value }));
 
     const data = await productService.getProductsByWarehouse(e.target.value); 
-    //console.log(data)
+    console.log(data)
     setProducts(data.map(pro => ({
         value: String(pro.id),
         label: `${pro.name} - (${pro.stock?.quantity})`,
@@ -267,7 +276,15 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
         productTypeId: pro.productType.id,
         productTypeName: pro.productType.name,
         taxRate: parseInt(pro.tax_rate),
-        unit: pro.stock.quantity
+        unit: pro.stock.quantity,
+
+        searchText: ` 
+        ${pro.name}
+        ${pro.sku || ''}
+        ${pro.hsn || ''}
+        ${pro.company || ''}
+        ${pro.productType?.name || ''}
+      `.toLowerCase()
       })));
   };
 
@@ -285,7 +302,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
             // { value: 'invoice', label: 'Final Invoice', desc: 'Confirmed sale' }
           ].map((type) => (
             <div
-              key={type.value}
+              key={type.value} 
               onClick={() => setSaleType(type.value)}
               className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${saleType === type.value
                 ? 'border-blue-600 bg-blue-50'
@@ -308,6 +325,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
           options={customers}
           required
           placeholder="Select or search customer"
+          className=' relative'
         />
         <Select
           label="Warehouse"
@@ -315,6 +333,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
           onChange={(e) => handelWarehouseChange(e)}
           options={warehouses}
           required
+          className=' relative'
         />
       </div>
 
@@ -349,7 +368,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
                     }}
                     options={products}
                     placeholder="Search product"
-                    className="mb-0"
+                    className="mb-0 relative"
                   />
                 </div>
                 <div className="md:col-span-2 col-span-4">

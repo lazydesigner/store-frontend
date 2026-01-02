@@ -128,7 +128,7 @@ const PaymentForm = ({ sale, onSubmit, onCancel }) => {
           onChange={handleChange}
           placeholder={`Enter ${formData.method} reference`}
           error={errors.reference_no}
-          required
+           
         />
       )}
 

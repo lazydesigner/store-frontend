@@ -85,7 +85,8 @@ const Sales = () => {
           status: sale.status,
           validUntil: sale.updated_at.split("T")[0],
           paymentStatus: sale?.payment_status,
-          items: sale.items
+          items: sale.items,
+          otherDetails: SalesData.data.filter(s => s.id === sale.id)[0]
         })))
 
        //console.log(SalesData) 
@@ -121,7 +122,7 @@ const Sales = () => {
   };
 
   const handleViewSale = (sale) => {
-    //console.log(sale)
+    console.log(sale)
     setSelectedSale(sale);
     setShowInvoiceModal(true);
   }; 
@@ -302,11 +303,11 @@ const user = JSON.parse(localStorage.getItem('user_data'));
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 overflow-hidden">
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Sales & Invoices</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Sales & Proforma</h1>
           <p className="text-gray-500 mt-1">Create and manage sales orders</p>
         </div>
         <Button icon={Plus} onClick={handleCreateSale}>
@@ -328,7 +329,7 @@ const user = JSON.parse(localStorage.getItem('user_data'));
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 overflow-auto">
         <nav className="flex space-x-8">
           {tabs.map(tab => ( 
             <button
@@ -371,7 +372,7 @@ const user = JSON.parse(localStorage.getItem('user_data'));
         <ProformaInvoice
           proformas={proformas}
           onDownload={handleDownloadProforma}
-          onConvert={handleConvertProforma}
+          onConvert={handleViewSale}
           onEmail={handleEmailProforma}
         />
       )}

@@ -20,7 +20,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
 
   const [saleType, setSaleType] = useState(sale?.type || 'draft');
   const [formData, setFormData] = useState({
-    id: sale.id,
+    id: sale.id, 
     customer_id: parseInt(sale?.customerId) || '',
     warehouse_id: parseInt(sale?.warehouseId) || '',
     items: sale?.items.map((item=>({
@@ -246,7 +246,8 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
       ]);
       setCustomer(csutData.data.map(cust => ({
         value: cust.id,
-        label: `${cust.name} - ${cust.phone}`
+        label: `${cust.name} - ${cust.phone}`,
+        searchText: `${cust.name} ${cust.phone}`.toLowerCase()
       })));
       setWarehouses(wareData.data.map(cust => ({
         value: cust.id,
@@ -262,7 +263,15 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
         productTypeId: pro.productType.id,
         productTypeName: pro.productType.name,
         taxRate: parseInt(pro.tax_rate),
-        unit: pro.stock.quantity
+        unit: pro.stock.quantity,
+
+        searchText: `
+        ${pro.name}
+        ${pro.sku || ''}
+        ${pro.hsn || ''}
+        ${pro.company || ''}
+        ${pro.productType?.name || ''}
+      `.toLowerCase()
       })));
     } catch (error) {
       console.error('Failed to load customers:', error);
@@ -284,7 +293,15 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
         productTypeId: pro.productType.id,
         productTypeName: pro.productType.name,
         taxRate: parseInt(pro.tax_rate),
-        unit: pro.stock.quantity
+        unit: pro.stock.quantity,
+
+        searchText: `
+        ${pro.name}
+        ${pro.sku || ''}
+        ${pro.hsn || ''}
+        ${pro.company || ''}
+        ${pro.productType?.name || ''}
+      `.toLowerCase()
       })));
   };
 
@@ -325,6 +342,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
           options={customers}
           required
           placeholder="Select or search customer"
+          className=' relative'
         />
         <Select
           label="Warehouse"
@@ -332,6 +350,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
           onChange={(e) => handelWarehouseChange(e)}
           options={warehouses}
           required
+          className=' relative'
         />
       </div>
 
@@ -366,7 +385,7 @@ const SaleForm = ({ sale = null, onSubmit, onCancel }) => {
                     }}
                     options={products}
                     placeholder="Search product"
-                    className="mb-0"
+                    className="mb-0 relative"
                   />
                 </div>
                 <div className="md:col-span-2 col-span-4">
