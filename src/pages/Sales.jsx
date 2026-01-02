@@ -10,7 +10,7 @@ import SaleForm from '../components/sales/SaleForm';
 import DraftSale from '../components/sales/DraftSale';
 import ProformaInvoice from '../components/sales/ProformaInvoice';
 import InvoicePDF from '../components/sales/InvoicePDF';
-import PaymentForm from '../components/sales/PaymentForm'; 
+import PaymentForm from '../components/sales/PaymentForm';
 import SaleEditForm from '../components/sales/SaleEditForm';
 import SalesLog from '../components/sales/SalesLog';
 import { useNotification } from '../context/NotificationContext';
@@ -25,8 +25,8 @@ const Sales = () => {
   const [proformas, setProformas] = useState([])
   const [logs, setLogs] = useState([])
   const [stats2, setStats2] = useState([])
-  const [stats, setStats] = useState([]) 
-  const [showEditModal, setShowEditModal] = useState(false); 
+  const [stats, setStats] = useState([])
+  const [showEditModal, setShowEditModal] = useState(false);
 
   useEffect(() => {
     loadSales();
@@ -89,7 +89,7 @@ const Sales = () => {
           otherDetails: SalesData.data.filter(s => s.id === sale.id)[0]
         })))
 
-       //console.log(SalesData) 
+      //console.log(SalesData) 
       setDrafts(SalesData.data
         .filter(sale => sale.type === "draft")
         .map(sale => ({
@@ -109,7 +109,7 @@ const Sales = () => {
       //console.log(err);
       error('Failed to load sales data');
     }
-  }; 
+  };
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
@@ -125,7 +125,7 @@ const Sales = () => {
     console.log(sale)
     setSelectedSale(sale);
     setShowInvoiceModal(true);
-  }; 
+  };
 
   const handleDownloadSale = async (sale) => {
 
@@ -148,7 +148,7 @@ const Sales = () => {
       //console.log(url)
     } catch (e) {
       //console.log(e)
-    } 
+    }
     // Download PDF logic
   };
 
@@ -165,7 +165,7 @@ const Sales = () => {
   };
 
   const handleSubmitSale = async (formData) => {
-    try { 
+    try {
       await salesService.createSale(formData)
       loadSales()
       success('Sale created successfully');
@@ -176,13 +176,13 @@ const Sales = () => {
   };
 
   const handleEditSubmitSale = async (formData) => {
-    const {id, employee_id, type, ...data} = formData;
+    const { id, employee_id, type, ...data } = formData;
     //console.log(formData)
-    try { 
+    try {
       await salesService.updateSale(id, data)
       loadSales()
-          success('Sale updated successfully');
-              setShowEditModal(false);
+      success('Sale updated successfully');
+      setShowEditModal(false);
     } catch (err) {
       //console.log(err)
       error('Failed to Update sale');
@@ -251,17 +251,22 @@ const Sales = () => {
       //console.log(url)
     } catch (e) {
       //console.log(e)
-    } 
+    }
   };
 
   const handleEmailProforma = async (proforma) => {
-    console.log(proforma)
-    await salesService.sendinvoice(proforma.id)
-    success(`Sending ${proforma.proformaNo} via email`);
+    try {
+      // console.log(proforma)
+      await salesService.sendinvoice(proforma.id)
+      success(`Sending ${proforma.invoiceNo} via email`);
+    } catch (e) {
+      //console.log(e)
+      error('Failed to send email || Email not provided')
+    }
   };
 
   const handleConvertProforma = (proforma) => {
-    success(`Converting ${proforma.proformaNo} to invoice`);
+    success(`Converting ${proforma.invoiceNo} to invoice`);
   };
 
   const handleAddPayment = (sale) => {
@@ -280,10 +285,10 @@ const Sales = () => {
       error('Failed to record payment');
     }
   };
-const user = JSON.parse(localStorage.getItem('user_data'));
+  const user = JSON.parse(localStorage.getItem('user_data'));
 
-    const isAdmin =
-      user?.roles?.includes('Admin') 
+  const isAdmin =
+    user?.roles?.includes('Admin')
   const tabs = [
     { id: 'all', label: 'All Sales' },
     { id: 'drafts', label: 'Drafts' },
@@ -331,7 +336,7 @@ const user = JSON.parse(localStorage.getItem('user_data'));
       {/* Tabs */}
       <div className="border-b border-gray-200 overflow-auto">
         <nav className="flex space-x-8">
-          {tabs.map(tab => ( 
+          {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
@@ -396,7 +401,7 @@ const user = JSON.parse(localStorage.getItem('user_data'));
           onConvert={handleConvertProforma}
           onEmail={handleEmailProforma}
         />)
-        
+
       )}
 
       {/* Create Sale Modal */}
@@ -425,10 +430,10 @@ const user = JSON.parse(localStorage.getItem('user_data'));
             invoice={selectedSale}
             onDownload={() => handleDownloadSale(selectedSale)}
             onPrint={() => window.print()}
-            onEmail={() => {handleEmailProforma(selectedSale)}}
+            onEmail={() => { handleEmailProforma(selectedSale) }}
           />
         )}
-      </Modal> 
+      </Modal>
 
       {/* Edit Sale Modal */}
       <Modal
