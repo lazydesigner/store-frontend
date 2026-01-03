@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TrendingUp, DollarSign, ShoppingCart, Package, User, Building2, Calendar } from 'lucide-react';
+import { TrendingUp, IndianRupee, ShoppingCart, Package, User, Building2, Calendar } from 'lucide-react';
 import Card from '../common/Card';
 import Button from '../common/Button';
 import Badge from '../common/Badge';
@@ -66,7 +66,7 @@ const SalesReport = ({ data = {}, dateRange }) => {
               </p>
             </div>
             <div className="bg-green-100 p-3 rounded-lg">
-              <DollarSign className="h-6 w-6 text-green-600" />
+              <IndianRupee className="h-6 w-6 text-green-600" />
             </div>
           </div>
         </Card>

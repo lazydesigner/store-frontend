@@ -37,7 +37,7 @@ const InvoicePDF = ({ invoice, onDownload, onPrint, onEmail }) => {
               <div className="text-sm text-gray-600">
                 {/* Juhi depot, , Canal Colony, Vinoba Nagar, Juhi Kalan, Juhi,  */}
                 <p className="font-semibold  my-0 text-gray-900">Friends Digital</p>
-                <p>127/T/10, opposite Siddhi Remedies</p>
+                <p>127/T/10, Juhi Depo Vinoba Nagar</p>
                 <p>Kanpur, Uttar Pradesh 208014</p>
                 <p>Phone: +91 99368 28533</p>
               </div>
@@ -165,7 +165,9 @@ const InvoicePDF = ({ invoice, onDownload, onPrint, onEmail }) => {
             <div className="text-center text-xs text-gray-500 mt-4">
               <p>Thank you for your business!</p>
               <p className="mt-1">This is a computer-generated proforma and does not require signature</p>
-            </div>
+            </div> 
+              <p className='text-xs text-gray-500 mt-4'>{JSON.parse(localStorage.getItem('user_data')).name} - {JSON.parse(localStorage.getItem('user_data')).phone}</p>
+            
           </div>
         </div>
       </div>

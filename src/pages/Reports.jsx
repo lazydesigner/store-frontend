@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart3, DollarSign, Package } from 'lucide-react';
+import { BarChart3, IndianRupee, Package } from 'lucide-react';
 import Card from '../components/common/Card'; 
 import Select from '../components/common/Select';
 import Input from '../components/common/Input';
@@ -39,9 +39,9 @@ const Reports = () => {
   const reportTypes = [
     { id: 'sales', name: 'Sales Report', icon: BarChart3, color: 'blue' },
     { id: 'stock', name: 'Stock Report', icon: Package, color: 'green' },
-    { id: 'kitty', name: 'Kitty (Commission)', icon: DollarSign, color: 'purple' },
+    { id: 'kitty', name: 'Kitty (Commission)', icon: IndianRupee , color: 'purple' },
     // { id: 'gst', name: 'GST Report', icon: TrendingUp, color: 'orange' },
-    { id: 'payment', name: 'Payment Report', icon: DollarSign, color: 'indigo' }
+    { id: 'payment', name: 'Payment Report', icon: IndianRupee , color: 'indigo' }
   ];
 
   useEffect(() => {

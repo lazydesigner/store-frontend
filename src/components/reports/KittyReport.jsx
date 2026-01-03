@@ -1,5 +1,5 @@
 import React from 'react';
-import { DollarSign, TrendingUp, Users } from 'lucide-react';
+import { IndianRupee, TrendingUp, Users } from 'lucide-react';
 import Card from '../common/Card';
 import Button from '../common/Button';
 
@@ -26,7 +26,7 @@ const KittyReport = ({ data = {}, dateRange }) => {
               <p className="text-sm text-gray-500 mt-1">{dateRange}</p>
             </div>
             <div className="bg-purple-100 p-3 rounded-lg">
-              <DollarSign className="h-6 w-6 text-purple-600" />
+              <IndianRupee className="h-6 w-6 text-purple-600" />
             </div>
           </div>
         </Card>

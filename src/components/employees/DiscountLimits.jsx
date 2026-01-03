@@ -10,6 +10,7 @@ import Badge from '../common/Badge';
 import { employeeService } from '../../services/employeeService';
 import roleService from '../../services/roleService';
 import { useNotification } from '../../context/NotificationContext';
+import { productTypeService } from '../../services/productTypeService';
 
 const DiscountLimits = () => {
   const [limits, setLimits] = useState([]);
@@ -40,9 +41,9 @@ const DiscountLimits = () => {
 
   const loadDiscountLimits = async () => {
     try {
-      const data = await employeeService.getDiscountLimits(); 
+      const data = await employeeService.getDiscountLimits();
       setLimits(data.data);
-    } catch (err) { 
+    } catch (err) {
       console.error('Failed to load discount limits:', err);
     }
   };
@@ -58,7 +59,7 @@ const DiscountLimits = () => {
 
   const loadRoles = async () => {
     try {
-      const data = await roleService.getAllRoles(); 
+      const data = await roleService.getAllRoles();
       setRoles(data.data);
     } catch (err) {
       console.error('Failed to load roles:', err);
@@ -67,16 +68,18 @@ const DiscountLimits = () => {
 
   const loadProductTypes = async () => {
     try {
+      setLoading(true);
+
+      const productType = await productTypeService.getAllProductTypes()
       // This should come from product service
-      setProductTypes([
-        { id: '1', name: 'Smartphone' },
-        { id: '2', name: 'Laptop' },
-        { id: '3', name: 'Television' },
-        { id: '4', name: 'Tablet' },
-        { id: '5', name: 'Accessories' }
-      ]);
+      setProductTypes(productType.data.map(type => ({
+        id: type.id,
+        name: type.name
+      })));
     } catch (err) {
       console.error('Failed to load product types:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -282,22 +285,20 @@ const DiscountLimits = () => {
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, applicationType: 'role', employeeId: '' }))}
-                className={`flex items-center justify-center space-x-2 p-4 border-2 rounded-lg transition-all ${
-                  formData.applicationType === 'role'
+                className={`flex items-center justify-center space-x-2 p-4 border-2 rounded-lg transition-all ${formData.applicationType === 'role'
                     ? 'border-blue-600 bg-blue-50 text-blue-700'
                     : 'border-gray-200 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 <span className="font-medium">Role</span>
               </button>
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, applicationType: 'employee', roleId: '' }))}
-                className={`flex items-center justify-center space-x-2 p-4 border-2 rounded-lg transition-all ${
-                  formData.applicationType === 'employee'
+                className={`flex items-center justify-center space-x-2 p-4 border-2 rounded-lg transition-all ${formData.applicationType === 'employee'
                     ? 'border-green-600 bg-green-50 text-green-700'
                     : 'border-gray-200 hover:border-gray-300'
-                }`}
+                  }`}
               >
                 <span className="font-medium">Employee</span>
               </button>
@@ -368,7 +369,7 @@ const DiscountLimits = () => {
 
           {/* Info Box */}
           <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm text-blue-800">
-            <strong>Note:</strong> When creating a sale, the system will check the discount limit 
+            <strong>Note:</strong> When creating a sale, the system will check the discount limit
             based on the employee's role and any individual limits. The most restrictive limit will apply.
           </div>
 

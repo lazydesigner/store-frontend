@@ -13,7 +13,7 @@ const CustomerForm = ({ customer = null, onSubmit, onCancel }) => {
     email: customer?.email || '',
     gstin: customer?.gstin || '',
     totalOrders: 0,
-    totalSpent: 0, 
+    totalSpent: 0,
     billingAddress: customer?.billingAddress || {
       line1: '',
       line2: '',
@@ -31,19 +31,19 @@ const CustomerForm = ({ customer = null, onSubmit, onCancel }) => {
       country: 'India'
     },
     sameAsShipping: customer?.sameAsShipping ?? true,
-    city: customer?.billingAddress?.city ||'',
+    city: customer?.billingAddress?.city || '',
   });
 
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
-  
+
   const { success, error } = useNotification();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
-    
+
+
     if (name.startsWith('billing.') || name.startsWith('shipping.')) {
       const [addressType, field] = name.split('.');
       setFormData(prev => ({
@@ -89,19 +89,25 @@ const CustomerForm = ({ customer = null, onSubmit, onCancel }) => {
 
     setLoading(true);
     try {
+      let dataToSubmit = {}
       // If same as shipping, copy billing to shipping
-      const dataToSubmit = { ...formData };
+      if (customer?.id) {
+        dataToSubmit = {
+          ...formData,
+          id: customer?.id || null
+        };
+      } else { dataToSubmit = { ...formData } };
       if (formData.sameAsShipping) {
         dataToSubmit.shippingAddress = { ...formData.billingAddress };
       }
-      
+
       await onSubmit(dataToSubmit);
-    } catch (error2) {  
-        if (String(error2).includes("409")){
-          error('A customer with this phone number or email already exists.')
-        }else{
-          error('Failed to save customer. Please try again.');
-        }; 
+    } catch (error2) {
+      if (String(error2).includes("409")) {
+        error('A customer with this phone number or email already exists.')
+      } else {
+        error('Failed to save customer. Please try again.');
+      };
     } finally {
       setLoading(false);
     }
@@ -219,7 +225,7 @@ const CustomerForm = ({ customer = null, onSubmit, onCancel }) => {
             type="checkbox"
             name="sameAsShipping"
             checked={formData.sameAsShipping}
-            onChange={handleChange} 
+            onChange={handleChange}
             className="rounded"
           />
           <span className="text-sm text-gray-700">Shipping address same as billing address</span>

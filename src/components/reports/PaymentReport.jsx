@@ -1,5 +1,5 @@
  import React from 'react';
-import { DollarSign, CreditCard, TrendingUp } from 'lucide-react';
+import { IndianRupee, CreditCard, TrendingUp } from 'lucide-react';
 import Card from '../common/Card';
 import Button from '../common/Button';
 
@@ -25,7 +25,7 @@ const PaymentReport = ({ data = {} }) => {
               <p className="text-sm text-gray-500 mt-1">This period</p>
             </div>
             <div className="bg-green-100 p-3 rounded-lg">
-              <DollarSign className="h-8 w-8 text-green-600" />
+              <IndianRupee className="h-8 w-8 text-green-600" />
             </div>
           </div>
         </Card>

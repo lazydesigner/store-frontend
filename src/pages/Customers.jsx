@@ -21,7 +21,7 @@ const Customers = () => {
   const { success, error } = useNotification();
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showOrdersModal, setShowOrdersModal] = useState(false); 
+  const [showOrdersModal, setShowOrdersModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [viewMode, setViewMode] = useState('list');
 
@@ -35,26 +35,29 @@ const Customers = () => {
       await exportService.exportCustomers();
       success('Customers exported successfully!');
     } catch (err) {
-      error('Failed to export customers'+ err);
+      error('Failed to export customers' + err);
     }
   };
 
 
-  try{
 
   useEffect(() => {
     // Fetch customers from API
-    const fetchCustomers = async () => {
-      const response = await customerService.getAllCustomers();
-      console.log(response.data);
-      setCustomers(response.data);
-    };
-    fetchCustomers(); 
-  }, []); 
+    fetchCustomers();
+  }, []);
 
-  }catch(err){
-    console.error(err);
-  }
+
+
+  const fetchCustomers = async () => {
+    try {
+      const response = await customerService.getAllCustomers();
+      setCustomers(response.data);
+    } catch (err) {
+      console.error(err);
+      error('Failed to fetch customers');
+    }
+  };
+
 
   const handleView = (customer) => {
     setSelectedCustomer(customer);
@@ -66,10 +69,17 @@ const Customers = () => {
     setShowAddModal(true);
   };
 
-  const handleDelete = (customer) => {
+  const handleDelete = async (customer) => {
     if (window.confirm(`Are you sure you want to delete ${customer.name}?`)) {
-      //console.log('Delete customer:', customer.id);
-      // API call to delete
+      try {
+        const response = await customerService.deleteCustomer(customer.id);
+        fetchCustomers();
+        success('Customer deleted successfully');
+
+      } catch (err) {
+        console.error(err);
+        error('Failed to delete customers');
+      }
     }
   };
 
@@ -82,27 +92,48 @@ const Customers = () => {
     navigate(`/sales/${order.id}`);
   };
 
-  const handleSubmitCustomer = async (data) => { 
+  const handleSubmitCustomer = async (data) => {
 
-    const response = await customerService.createCustomer(data);
-    //console.log(response);
+    console.log(data)
 
-    if(response.success){
-      success('Customer saved successfully');
-      // Refresh customer list
-      setCustomers(prev => [...prev, response.data]);
-    }
+    if (data.id) {
+      try {
+        const id = data.id;
+        delete data.id;
+        // Update existing customer
+        const response = await customerService.updateCustomer(id, data);
 
-    if(response.error){
-      error('Failed to save customer');
-      return;
+        success('Customer updated successfully');
+        // Refresh customer list
+        setCustomers(prev => prev.map(c => c.id === data.id ? response.data : c));
+      } catch (err) {
+        error('Failed to update customer');
+      }
+
+
+    } else {
+      try {
+        const response = await customerService.createCustomer(data);
+
+        if (response.success) {
+          success('Customer saved successfully');
+          // Refresh customer list
+          setCustomers(prev => [...prev, response.data]);
+        } else {
+          error('Failed to save customer');
+          return;
+        }
+      } catch (err) {
+        error('Failed to save customer');
+        return;
+      }
     }
 
     // API call to create/update
     setShowAddModal(false);
     setSelectedCustomer(null);
   };
- 
+
 
   const filteredCustomers = customers.filter(customer =>
     customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -120,12 +151,12 @@ const Customers = () => {
           <h1 className="text-3xl font-bold text-gray-900">Customers</h1>
           <p className="text-gray-500 mt-1">Manage customer database and orders</p>
         </div>
-        <div className="flex items-center space-x-3"> 
-          <Button variant="outline" icon={Upload} 
+        <div className="flex items-center space-x-3">
+          <Button variant="outline" icon={Upload}
             onClick={() => setShowImportModal(true)}>
             Import
           </Button>
-          <Button variant="outline" icon={Download} 
+          <Button variant="outline" icon={Download}
             onClick={handleExport}>
             Export
           </Button>
@@ -197,7 +228,7 @@ const Customers = () => {
             >
               Grid
             </Button>
-          </div> 
+          </div>
         </div>
       </Card>
 
@@ -283,10 +314,10 @@ const Customers = () => {
             />
           </div>
         )}
-      </Modal> 
-       <ImportCustomersModal
+      </Modal>
+      <ImportCustomersModal
         isOpen={showImportModal}
-        onClose={() => {setShowImportModal(false);window.location.reload()}}
+        onClose={() => { setShowImportModal(false); window.location.reload() }}
       />
     </div>
   );

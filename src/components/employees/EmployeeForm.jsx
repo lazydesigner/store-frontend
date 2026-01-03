@@ -148,7 +148,7 @@ const EmployeeForm = ({ roles = [], employee = null, onSubmit, onCancel }) => {
     if (!validate()) return;
 
     setLoading(true);
-    try {
+    try { 
       let dataToSubmit = {}
 
       if (employee?.id) {
